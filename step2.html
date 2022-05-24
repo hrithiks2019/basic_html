@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>step2</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div class="container" style="position:absolute; left:0; right:0; top: 50%; transform: translateY(-50%); -ms-transform: translateY(-50%); -moz-transform: translateY(-50%); -webkit-transform: translateY(-50%); -o-transform: translateY(-50%);">
+        <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
+            <div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 bg-white shadow-lg" style="border-radius: 5px;">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h4 class="text-dark mb-4">Enter Your Contact Information!</h4>
+                    </div><small style="margin: 0px 0px 9px 0px;">*Required Information</small>
+                    <form class="user" action="result.html">
+                        <div class="row mb-3">
+                            <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" placeholder="First Name*" required=""></div>
+                            <div class="col-sm-6"><input class="form-control form-control-user" type="text" placeholder="Last Name*" required=""></div>
+                        </div><input class="form-control form-control-user" type="text" placeholder="Address" required="" style="margin: 0px 0px 16px 0px;">
+                        <div class="row mb-3">
+                            <div class="col-sm-6 col-xl-4 offset-xl-0 text-start mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" placeholder="City*" required=""></div>
+                            <div class="col-xl-4"><input class="form-control form-control-user" type="text" placeholder="State*" required=""></div>
+                            <div class="col-xl-4"><input class="form-control form-control-user" type="text" placeholder="Zipcode*" required="" pattern="^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$"></div>
+                        </div>
+						<div class="row mb-3">
+                            <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" placeholder="Phone Number*" required=""></div>
+                            <div class="col-sm-6"><input class="form-control form-control-user" type="email" placeholder="Email*" required=""></div>
+						</div>
+						<div class="row mb-3">
+                            <p id="emailErrorMsg" class="text-danger" style="display:none;">Paragraph</p>
+                            <p id="passwordErrorMsg" class="text-danger" style="display:none;">Paragraph</p>
+                        </div>
+
+                        <div>
+                            <fieldset></fieldset>
+                            <fieldset>
+                                <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1" class="custom-control-input" checked=""><label class="form-label custom-control-label" for="customCheck1">&nbsp;&nbsp;Yes, I would like to receive updates and offers from My Tears, My Rewards sent to my mobile device. I understand that the frequency of these recurring messages depends on user preferences/activity and that message and data rates may apply. I understand that can unsubscribe at any time by simply texting "STOP" and receive help by texting "HELP" to 72428. You can opt out of receiving emails at any time by clicking the unsubscribe link in any email. <strong><span style="text-decoration: underline;">Terms &amp; Conditions</span></strong></label></div>
+                                <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck2" class="custom-control-input"><label class="form-label custom-control-label" for="customCheck2">&nbsp; &nbsp;Yes, I would like to receive other communication from Allergan, Inc. You can opt out by clicking the unsubscribe link in any email <strong><span style="text-decoration: underline;">Terms &amp; Conditions</span></strong></label></div>
+                            </fieldset>
+                            <fieldset>
+                                <legend style="color: var(--bs-blue);"><strong>MY TEARS, MY REWARDS' SAVING CARD DELIVERY OPTION</strong></legend>
+                                <div class="custom-control custom-radio custom-control-inline"><input type="radio" id="customRadioInline1" class="custom-control-input" name="customRadioInline" checked=""><label class="form-label custom-control-label" for="customRadioInline1">&nbsp; Print your Savings Card now !</label></div>
+                                <div class="custom-control custom-radio custom-control-inline"><input type="radio" id="customRadioInline2" class="custom-control-input" name="customRadioInline"><label class="form-label custom-control-label" for="customRadioInline2">&nbsp; Receive your Savings Card via text message.&nbsp;</label></div>
+                            </fieldset>
+                        </div><button class="btn btn-primary d-block btn-user w-100" id="submitBtn" type="submit">Submit</button>
+                        <hr>
+                    </form>
+                </div>
+            </div>
+        </div><script>
+	let email = document.getElementById("email")
+	let password = document.getElementById("password")
+	let verifyPassword = document.getElementById("verifyPassword")
+	let submitBtn = document.getElementById("submitBtn")
+	let emailErrorMsg = document.getElementById('emailErrorMsg')
+	let passwordErrorMsg = document.getElementById('passwordErrorMsg')
+
+	function displayErrorMsg(type, msg) {
+		if(type == "email") {
+			emailErrorMsg.style.display = "block"
+			emailErrorMsg.innerHTML = msg
+			submitBtn.disabled = true
+		}
+		else {
+			passwordErrorMsg.style.display = "block"
+			passwordErrorMsg.innerHTML = msg
+			submitBtn.disabled = true
+		}
+	}
+
+	function hideErrorMsg(type) {
+		if(type == "email") {
+			emailErrorMsg.style.display = "none"
+			emailErrorMsg.innerHTML = ""
+			submitBtn.disabled = true
+			if(passwordErrorMsg.innerHTML == "")
+				submitBtn.disabled = false
+		}
+		else {
+			passwordErrorMsg.style.display = "none"
+			passwordErrorMsg.innerHTML = ""
+			if(emailErrorMsg.innerHTML == "")
+				submitBtn.disabled = false
+		}
+	}
+	
+	// Validate password upon change
+	password.addEventListener("change", function() {
+
+		// If password has no value, then it won't be changed and no error will be displayed
+		if(password.value.length == 0 && verifyPassword.value.length == 0) hideErrorMsg("password")
+		
+		// If password has a value, then it will be checked. In this case the passwords don't match
+		else if(password.value !== verifyPassword.value) displayErrorMsg("password", "Passwords do not match")
+		
+		// When the passwords match, we check the length
+		else {
+			// Check if the password has 8 characters or more
+			if(password.value.length >= 8)
+				hideErrorMsg("password")
+			else
+				displayErrorMsg("password", "Password must be at least 8 characters long")
+		}
+	})
+	
+	verifyPassword.addEventListener("change", function() {
+		if(password.value !== verifyPassword.value)
+			displayErrorMsg("password", "Passwords do not match")
+		else {
+			// Check if the password has 8 characters or more
+			if(password.value.length >= 8)
+				hideErrorMsg("password")
+			else
+				displayErrorMsg("password", "Password must be at least 8 characters long")
+		}
+	})
+
+	// Validate email upon change
+	email.addEventListener("change", function() {
+		// Check if the email is valid using a regular expression (string@string.string)
+		if(email.value.match(/^[^@]+@[^@]+\.[^@]+$/))
+			hideErrorMsg("email")
+		else
+			displayErrorMsg("email", "Invalid email")
+	});
+</script>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
